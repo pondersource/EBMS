@@ -1,0 +1,13 @@
+{
+    "name": "pondersource/ebms",
+    "autoload": {
+        "psr-4": {
+            "PonderSource\\EBMS\\":
+            "PonderSource/EBMS"
+        }
+    },
+    "description": "implements parts of the ebxml spec that are needed for peppol",
+    "require": {
+        "jms/serializer": "^3.17"
+    }
+}
