@@ -2,16 +2,18 @@
 
 namespace PonderSource\EBMS;
 
-use JMS\Serializer\Annotation\{XmlAttributeMap, XmlValue};
+use JMS\Serializer\Annotation\{Type, XmlAttributeMap, XmlValue};
 
 class Property {
     /**
      * @XmlAttributeMap
+     * @Type("array<string,string>")
      */
     private $attributes;
 
     /**
      * @XmlValue(cdata=false)
+     * @Type("string")
      */
     private $value;
 

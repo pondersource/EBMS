@@ -7,8 +7,8 @@ use PonderSource\EBMS\{Messaging, UserMessage, Service, PayloadInfo, PartInfo, P
 $messageInfo = new MessageInfo();
 $messageInfo->setTimestamp(new DateTime('2022-02-28T10:11:47.68+01:00'))
             ->setMessageId("f28599a0-e0cc-4335-8049-dee97debf1ed@phase4");
-$from = new Party(new PartyId('urn:fdc:peppol.eu:2017:identifiers:ap', 'POP000306'), 'http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator');
-$to = new Party(new PartyId('urn:fdc:peppol.eu:2017:identifiers:ap', 'POP000306'), 'http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder');
+$from = new Party(new PartyId('POP000306', 'urn:fdc:peppol.eu:2017:identifiers:ap'), 'http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/initiator');
+$to = new Party(new PartyId('POP000306', 'urn:fdc:peppol.eu:2017:identifiers:ap'), 'http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/ns/core/200704/responder');
 $partyInfo = new PartyInfo($from, $to);
 $collaborationInfo = new CollaborationInfo(
     'urn:fdc:peppol.eu:2017:agreements:tia:ap_provider', 
@@ -18,7 +18,7 @@ $collaborationInfo = new CollaborationInfo(
 $messageProperties = [ 
     new Property('9915:phase4-test-sender', ['name'=>'originalSender','type'=>'iso6523-actorid-upis']),
     new Property('9915:helger', ['name'=>'finalRecipient','type'=>'iso6523-actorid-upis'])];
-$partInfo = new PartInfo($reference = 'cid:blablabla');
+$partInfo = new PartInfo($reference = 'cid:phase4-att-e80847af-d1ca-4143-9c99-117edd1e0e11@cid');
 $partInfo->addPartProperty(new Property('application/xml',['name'=>'MimeType']));
 $partInfo->addPartProperty(new Property('application/gzip',['name'=>'CompressionType']));
 $payloadInfo = new PayloadInfo($partInfo);
@@ -31,5 +31,20 @@ $userMessage->setMessageInfo($messageInfo)
 $messaging = new Messaging($userMessage, 'phase4-msg-47adeea1-a8c9-421e-85fd-1dec8cd2cd84');
 
 $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-$xmlContent = $serializer->serialize($messaging, 'xml');
-var_dump($xmlContent);
+$xmlContent1 = $serializer->serialize($messaging, 'xml');
+$xmlContent2 = file_get_contents('messaging-phase4.xml');
+$dom1 = new DOMDocument();
+$dom1->loadXML($xmlContent1);
+$dom2 = new DOMDocument();
+$dom2->loadXML($xmlContent2);
+$obj1 = $serializer->deserialize($xmlContent1,'PonderSource\EBMS\Messaging::class', 'xml');
+$obj2 = $serializer->deserialize($xmlContent2,'PonderSource\EBMS\Messaging::class', 'xml');
+$xmlContent3 = $serializer->serialize($obj1, 'xml');
+$dom3 = new DOMDocument();
+$dom3->loadXML($xmlContent3);
+
+file_put_contents('serialized.xml', $dom1->C14N($exclusive=true));
+file_put_contents('read.xml', $dom2->C14N($exclusive=true));
+file_put_contents('reserialized.xml', $dom1->C14N($exclusive=true));
+/*$obj = $serializer->deserialize($xmlContent, 'PonderSource\EBMS\Messaging::class', 'xml');
+var_dump($obj);*/

@@ -2,17 +2,21 @@
 
 namespace PonderSource\EBMS;
 
-use PonderSource\EBMS\Party;
-use JMS\Serializer\Annotation\{XmlNamespace, SerializedName};
+use PonderSource\EBMS\{Party,Namespaces};
+use JMS\Serializer\Annotation\{Type,XmlElement,XmlNamespace,SerializedName};
 
 class PartyInfo {
     /**
-     * @SerializedName("eb:From")
+     * @SerializedName("From")
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\Party")
      */
     private $from;
 
     /**
-     * @SerializedName("eb:To")
+     * @SerializedName("To")
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\Party")
      */
     private $to;
 

@@ -2,31 +2,35 @@
 
 namespace PonderSource\EBMS;
 
-use PonderSource\EBMS\Service;
-use JMS\Serializer\Annotation\{SerializedName, XmlElement};
+use PonderSource\EBMS\{Service,Namespaces};
+use JMS\Serializer\Annotation\{Type,SerializedName,XmlElement};
 
 class CollaborationInfo {
     /**
-     * @SerializedName("eb:AgreementRef"); 
-     * @XmlElement(cdata=false);
+     * @SerializedName("AgreementRef"); 
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("string")
      */
     private $agreementRef;
 
     /**
-     * @SerializedName("eb:Service");
-     * @XmlElement(cdata=false);
+     * @SerializedName("Service");
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("PonderSource\EBMS\Service")
      */
     private $service;
 
     /**
-     * @SerializedName("eb:Action");
-     * @XmlElement(cdata=false);
+     * @SerializedName("Action");
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("string")
      */
     private $action;
 
     /**
-     * @SerializedName("eb:ConversationId");
-     * @XmlElement(cdata=false);
+     * @SerializedName("ConversationId");
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("string")
      */
     private $conversationId;
 

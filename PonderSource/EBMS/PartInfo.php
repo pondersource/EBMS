@@ -2,37 +2,40 @@
 
 namespace PonderSource\EBMS;
 
-require __DIR__ . '/../../vendor/autoload.php';
-
-use PonderSource\EBMS\Property;
-use JMS\Serializer\Annotation\{XmlNamespace, XmlRoot, XmlList, XmlAttributeMap};
+use PonderSource\EBMS\{Property,Namespaces};
+use JMS\Serializer\Annotation\{Type,XmlNamespace,XmlRoot,XmlList,XmlAttribute,XmlElement,SerializedName};
 
 /**
  * @XmlNamespace(uri="http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/core/ebms-header-3_0-200704.xsd", prefix="eb")
  */
 class PartInfo {
     /**
-     * @XmlList(inline=true, entry="eb:Property")
+     * @XmlList(entry="Property",namespace=Namespaces::EB)
+     * @Type("array<PonderSource\EBMS\Property>")
+     * @XmlElement(namespace=Namespaces::EB)
+     * @SerializedName("PartProperties")
      */
     private $partProperties = [];
     
     /**
-     * @XmlAttributeMap
+     * @XmlAttribute
+     * @SerializedName("href") 
+     * @Type("string")
      */
-    private $partReference = ['href' => ''];
+    private $reference;
 
     public function __construct($reference = '', $partProperties = []){
-        $this->partReference['href'] = $reference;
+        $this->reference = $reference;
         $this->partProperties = $partProperties;
     }
 
     function setReference($ref){
-        $this->partReference['href'] = $ref;
+        $this->reference = $ref;
         return $this;
     }
 
     function getReference(){
-        return $this->partReference['href'];
+        return $this->reference;
     }
 
     function addPartProperty($property){

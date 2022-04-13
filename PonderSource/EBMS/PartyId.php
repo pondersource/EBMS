@@ -2,17 +2,19 @@
 
 namespace PonderSource\EBMS;
 
-use JMS\Serializer\Annotation\{XmlValue, SerializedName, XmlAttribute};
+use JMS\Serializer\Annotation\{Type, XmlValue, SerializedName, XmlAttribute};
 
 class PartyId {
     /**
      * @SerializedName("PartyId");
      * @XmlValue(cdata=false);
+     * @Type("string")
      */
     private $value;
 
     /**
      * @XmlAttribute
+     * @Type("string")
      */
     private $type = '';
 

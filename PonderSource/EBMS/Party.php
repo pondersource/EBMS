@@ -2,17 +2,21 @@
 
 namespace PonderSource\EBMS;
 
-use JMS\Serializer\Annotation\{XmlElement, SerializedName};
+use PonderSource\EBMS\{Namespaces,PartyId};
+use JMS\Serializer\Annotation\{Type, XmlElement, SerializedName};
 
 class Party {
     /**
-     * @SerializedName("eb:PartyId");
+     * @SerializedName("PartyId");
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\PartyId")
      */
     private $partyId;
 
     /**
-     * @SerializedName("eb:Role");
-     * @XmlElement(cdata=false);
+     * @SerializedName("Role");
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("string")
      */
     private $role;
 

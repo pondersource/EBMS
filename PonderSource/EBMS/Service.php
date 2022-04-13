@@ -2,17 +2,19 @@
 
 namespace PonderSource\EBMS;
 
-use JMS\Serializer\Annotation\{XmlValue, XmlAttribute, serializedName};
+use JMS\Serializer\Annotation\{Type, XmlValue, XmlAttribute, serializedName};
 
 class Service {
     /**
      * @SerializedName("Service");
      * @XmlValue(cdata=false);
+     * @Type("string")
      */
     private $value;
 
     /**
      * @XmlAttribute
+     * @Type("string")
      */
     private $type;
 

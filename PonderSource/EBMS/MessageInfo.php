@@ -2,32 +2,27 @@
 
 namespace PonderSource\EBMS;
 
-use JMS\Serializer\Annotation\{XmlElement, SerializedName, Exclude};
+use PonderSource\EBMS\Namespaces;
+use JMS\Serializer\Annotation\{Type, XmlElement, SerializedName, Exclude};
 
 class MessageInfo {
     /**
-     * @SerializedName("eb:Timestamp");
-     * @XmlElement(cdata=false);
-     */
-    private $timestampString;
-
-    /**
-     * @Exclude
+     * @SerializedName("Timestamp");
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("DateTime<'Y-m-d\TH:i:s.vP'>")
      */
     private $timestamp;
 
     /**
-     * @SerializedName("eb:MessageId");
-     * @XmlElement(cdata=false);
+     * @SerializedName("MessageId");
+     * @XmlElement(cdata=false,namespace=Namespaces::EB);
+     * @Type("string")
      */
     private $messageId;
 
     public function __construct($timestamp = null, $messageId = null){
         $this->timestamp = $timestamp;
         $this->messageId = $messageId;
-        if($timestamp && get_class($timestamp) === "DateTime"){
-            $this->timestampString = $timestamp->format(\DateTimeInterface::RFC3339_EXTENDED);
-        }
         return $this;
     }
 
@@ -36,13 +31,8 @@ class MessageInfo {
     }
 
     public function setTimestamp($timestamp){
-        if(get_class($timestamp) === "DateTime"){
-            $this->timestamp = $timestamp;
-            $this->timestampString = $timestamp->format(\DateTimeInterface::RFC3339_EXTENDED);
-            return $this;
-        } else {
-            throw new Exception("Timestamp has to be of class DateTime");
-        }
+        $this->timestamp = $timestamp;
+        return $this;
     }
 
     public function getMessageId(){

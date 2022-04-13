@@ -2,32 +2,43 @@
 
 namespace PonderSource\EBMS;
 
-use JMS\Serializer\Annotation\{SerializedName, XmlList};
+use PonderSource\EBMS\Namespaces;
+use JMS\Serializer\Annotation\{Type, SerializedName, XmlList, XmlElement};
 
 class UserMessage {
     /**
-     * @SerializedName("eb:MessageInfo");
+     * @SerializedName("MessageInfo");
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\MessageInfo")
      */
     private $messageInfo;
 
     /**
-     * @SerializedName("eb:PartyInfo");
+     * @SerializedName("PartyInfo")
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\PartyInfo")
      */
     private $partyInfo;
 
     /**
-     * @SerializedName("eb:CollaborationInfo");
+     * @SerializedName("CollaborationInfo")
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\CollaborationInfo")
      */
     private $collaborationInfo;
 
     /**
-     * @SerializedName("eb:MessageProperties");
-     * @XmlList(inline=true, entry="eb:Property")
+     * @SerializedName("MessageProperties")
+     * @XmlList(entry="Property", namespace=Namespaces::EB)
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("array<PonderSource\EBMS\Property>")
      */
     private $messageProperties;
 
     /**
-     * @SerializedName("eb:PayloadInfo")
+     * @SerializedName("PayloadInfo")
+     * @XmlElement(namespace=Namespaces::EB)
+     * @Type("PonderSource\EBMS\PayloadInfo")
      */
     private $payloadInfo;
 
