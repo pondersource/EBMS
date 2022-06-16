@@ -4,3 +4,10 @@ Minimal viable library to generate an EbXml Element that matches the one generat
 
 check index.php for an example setup...
 helper functions, default values, checks and tests are missing, this is wip.
+
+
+```sh
+composer install
+cp ../peppol-php/docs/rules/examples/ebms.xml messaging-phase4.xml
+php index.php
+```
